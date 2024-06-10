@@ -33,3 +33,7 @@ docker-copmose build
 # 启动
 docker-compose up -d
 ```
+
+# 服务端口
+- xiaoya-alist: http://localhost:5678
+- emby: http://localhost:7778
