@@ -1,0 +1,59 @@
+services:
+  xiaoya:
+    container_name: xiaoya-alist
+    hostname: xiaoya-real.host
+    image: xiaoyaliu/alist:latest
+    ports:
+      - 5678:80
+    volumes:
+      - ./alist:/data
+    restart: always
+
+  update-metadata:
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - LANG=C.UTF-8
+      - UID=1000
+      - GID=1000
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./scripts:/root/scripts
+      - ./emby/config:/config
+      - ./emby/metadata:/metadata
+      - ./emby/metadata-cache:/metadata-cache
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: ["bash", "/root/scripts/auto-fetch-metadata.sh", "true"]
+
+  emby:
+    image: emby/embyserver:4.8.0.56
+    container_name: emby-server
+    environment:
+      - UID=1000
+      - GID=1000
+      - GIDLIST=1000
+    volumes:
+      - ./emby/config:/config
+      - ./emby/metadata:/media
+      - ./nsswitch.conf:/etc/nsswitch.conf
+    ports:
+      - 7778:6908
+    restart: always
+
+  port-forward:
+    build:
+      dockerfile: Dockerfile-portforward
+    container_name: port-forward
+    hostname: xiaoya.host
+    command: ["socat", "TCP-LISTEN:5678,fork", "TCP:xiaoya-real.host:80"]
+
+  watchtower:
+    container_name: xiaoya-alist-updater
+    image: containrrr/watchtower
+    environment:
+      - WATCHTOWER_LOG_LEVEL=debug
+      - WATCHTOWER_TRACE=true
+      - WATCHTOWER_CLEANUP=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: ["xiaoya-alist"]
