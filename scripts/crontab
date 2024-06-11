@@ -1,1 +1,2 @@
 0 0 * * * /root/scripts/auto-fetch-metadata.sh
+0 0 * * * /root/scripts/aliyunpan-cleaner.sh
