@@ -140,6 +140,7 @@ echo "running aliyunpan cleaner..."
 if get_access_token; then
     if get_drive_id; then
         delete_files_in_folder "${TEMP_FOLDER_ID}"
+        echo "aliyunpan cleaner done."
     else
         exit 1
     fi
