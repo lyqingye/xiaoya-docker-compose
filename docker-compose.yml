@@ -54,6 +54,8 @@ services:
       - WATCHTOWER_LOG_LEVEL=debug
       - WATCHTOWER_TRACE=true
       - WATCHTOWER_CLEANUP=true
+      - TZ=Asia/Shanghai
+      - WATCHTOWER_POLL_INTERVAL=86400
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: ["xiaoya-alist"]
