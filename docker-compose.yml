@@ -22,6 +22,7 @@ services:
       - ./emby/config:/config
       - ./emby/metadata:/metadata
       - ./emby/metadata-cache:/metadata-cache
+      - ./alist:/alist
       - /var/run/docker.sock:/var/run/docker.sock
     command: ["bash", "/root/scripts/auto-fetch-metadata.sh", "true"]
 
