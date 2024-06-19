@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-ALIST_IMAGE=xiaoyaliu/alist
 XIAOYA_ALIST_HOST=http://xiaoya-real.host
 
 docker stop xiaoya-alist-updater
@@ -19,6 +18,7 @@ done
 
 docker stop emby-server
 bash /root/scripts/fetch-metadata.sh
+python3 /root/scripts/remove-media-item.py
 docker start xiaoya-alist-updater
 docker start emby-server
 
