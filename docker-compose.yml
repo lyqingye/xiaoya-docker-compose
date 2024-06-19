@@ -20,7 +20,8 @@ services:
     volumes:
       - ./scripts:/root/scripts
       - ./emby/config:/config
-      - ./emby/metadata:/metadata
+      - ./emby/metadata:/media
+      - ./emby/config/data:/emby-data
       - ./emby/metadata-cache:/metadata-cache
       - ./alist:/alist
       - /var/run/docker.sock:/var/run/docker.sock

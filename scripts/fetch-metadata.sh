@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 XIAOYA_ALIST_HOST=http://xiaoya-real.host
-METADATA_DIR=/metadata
+METADATA_DIR=/media
 EMBY_CONFIG_DIR=/config
 TEMP_DIR=/metadata-cache
 
 XIAOYA_VERSION_STR=$(curl -s -u guest:guest_Api789 -X PROPFIND -H 'Depth: 1' ${XIAOYA_ALIST_HOST}/dav  | xq | jq -r '.["D:multistatus"]["D:response"][] | select(.["D:propstat"]["D:prop"]["D:displayname"] | contains("©")) | .["D:propstat"]["D:prop"]["D:displayname"]')
 if [ -z "${XIAOYA_VERSION_STR}" ]; then
   echo -e "could not found current xiaoya version"
-  exit -1
+  exit 1
 fi
 
 XIAOYA_VERSION=${XIAOYA_VERSION_STR##* v.}
